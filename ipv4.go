@@ -5,21 +5,21 @@ import (
 )
 
 type IPv4Packet struct {
-	Version              uint8
-	InternetHeaderLength uint8
-	DSCP                 uint8
-	ECN                  uint8
-	Length               uint16
-	Identification       uint16
-	Flags                uint8
-	FragmentationOffset  uint16
-	TimeToLive           uint8
-	Protocol             uint8
-	HeaderChecksum       uint16
-	Source               net.IP
-	Destination          net.IP
-	Options              []byte
-	Payload              []byte
+	Version              uint8  `json:"version"`
+	InternetHeaderLength uint8  `json:"internetHeaderLength"`
+	DSCP                 uint8  `json:"dscp"`
+	ECN                  uint8  `json:"ecn"`
+	Length               uint16 `json:"length"`
+	Identification       uint16 `json:"indentification"`
+	Flags                uint8  `json:"flags"`
+	FragmentationOffset  uint16 `json:"fragmentationOffset"`
+	TimeToLive           uint8  `json:"timeToLive"`
+	Protocol             uint8  `json:"protocol"`
+	HeaderChecksum       uint16 `json:"headerChecksum"`
+	Source               net.IP `json:"source"`
+	Destination          net.IP `json:"destination"`
+	Options              []byte `json:"options"`
+	Payload              []byte `json:"payload"`
 }
 
 func DecodeIPv4(b []byte) IPv4Packet {

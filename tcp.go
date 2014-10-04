@@ -1,26 +1,24 @@
 package protodecode
 
-import ()
-
 type TCPPacket struct {
-	SourcePort            uint16
-	DestinationPort       uint16
-	SequenceNumber        uint32
-	AcknowledgementNumber uint32
-	DataOffset            uint8
+	SourcePort            uint16 `json:"sourcePort"`
+	DestinationPort       uint16 `json:"destinationPort"`
+	SequenceNumber        uint32 `json:"sequenceNumber"`
+	AcknowledgementNumber uint32 `json:"acknowledgementNumber"`
+	DataOffset            uint8  `json:"dataOffset"`
 
 	// We have 9 bits of flags
 	// so we're going to waste a
 	// few bits of space using a
 	// uint16.
-	Flags uint16
+	Flags uint16 `json:"flags"`
 
-	WindowSize    uint16
-	Checksum      uint16
-	UrgentPointer uint16
+	WindowSize    uint16 `json:"windowSize"`
+	Checksum      uint16 `json:"checksum"`
+	UrgentPointer uint16 `json:"urgentPointer"`
 
-	Options []byte
-	Payload []byte
+	Options []byte `json:"options"`
+	Payload []byte `json:"payload"`
 }
 
 func (p TCPPacket) HasFIN() bool {
