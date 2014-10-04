@@ -54,10 +54,10 @@ func DecodeIPv4(b []byte) IPv4Packet {
 	packet.HeaderChecksum = uint16(b[i])<<8 | uint16(b[i+1])
 	i += 2
 
-	packet.Source = net.IPv4(b[i], b[i+1], b[i+2], b[i+3])
+	packet.Source = net.IP(b[i : i+4])
 	i += 4
 
-	packet.Destination = net.IPv4(b[i], b[i+1], b[i+2], b[i+3])
+	packet.Destination = net.IP(b[i : i+4])
 	i += 4
 
 	packet.Options = b[i : int(packet.InternetHeaderLength)*4]
