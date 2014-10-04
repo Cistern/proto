@@ -17,9 +17,9 @@ func TestIPv6(t *testing.T) {
 
 	packet := DecodeIPv6(b)
 
-	if packet.DestinationAddress.String() != "2620:100:5007:2::2" {
+	if packet.Destination.String() != "2620:100:5007:2::2" {
 		t.Errorf("expected destination address %v, got %v",
-			"2620:100:5007:2::2", packet.DestinationAddress)
+			"2620:100:5007:2::2", packet.Destination)
 	}
 }
 
