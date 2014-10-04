@@ -5,15 +5,15 @@ import (
 )
 
 type IPv6Packet struct {
-	Version            uint8
-	TrafficClass       uint8
-	FlowLabel          uint32
-	PayloadLength      uint16
-	NextHeader         uint8
-	HopLimit           uint8
-	SourceAddress      net.IP
-	DestinationAddress net.IP
-	Payload            []byte
+	Version            uint8  `json:"version"`
+	TrafficClass       uint8  `json:"trafficClass"`
+	FlowLabel          uint32 `json:"flowLabel"`
+	PayloadLength      uint16 `json:"payloadLength"`
+	NextHeader         uint8  `json:"nextHeader"`
+	HopLimit           uint8  `json:"hopLimit"`
+	SourceAddress      net.IP `json:"sourceAddress"`
+	DestinationAddress net.IP `json:"destinationAddress"`
+	Payload            []byte `json:"payload"`
 }
 
 func DecodeIPv6(b []byte) IPv6Packet {
