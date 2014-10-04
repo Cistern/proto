@@ -23,7 +23,7 @@ func DecodeIPv6(b []byte) IPv6Packet {
 
 	packet.Version = b[i] >> 4
 	packet.TrafficClass = uint8(b[i]&0xf)<<4 | uint8(b[i+1]>>4)
-	i += 1
+	i++
 
 	packet.FlowLabel = uint32(b[i]&0xf)<<16 | uint32(b[i+1])<<8 | uint32(b[i+2])
 	i += 3
