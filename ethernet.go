@@ -40,3 +40,40 @@ func DecodeEthernet(b []byte) EthernetFrame {
 
 	return frame
 }
+
+func (f EthernetFrame) Bytes() []byte {
+	i := 0
+
+	b := make([]byte, (6+6+4+2)+len(f.Payload))
+
+	copy(b, f.Source[:])
+	i += 6
+	copy(b[i:], f.Destination[:])
+	i += 6
+
+	if f.VlanTag != 0 {
+		b[i] = 0x81
+		b[i+1] = 0x00
+		i += 2
+
+		b[i] = byte(f.VlanTag >> 8)
+		b[i+1] = byte(f.VlanTag)
+
+		i += 2
+	}
+
+	if f.EtherType != 0 {
+		b[i] = byte(f.EtherType >> 8)
+		b[i+1] = byte(f.EtherType)
+	} else {
+		l := len(f.Payload)
+		b[i] = byte(l >> 8)
+		b[i+1] = byte(l)
+	}
+
+	i += 2
+
+	copy(b[i:], f.Payload)
+
+	return b[:i+len(f.Payload)]
+}

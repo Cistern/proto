@@ -1,6 +1,8 @@
 package protodecode
 
 import (
+	"net"
+	"reflect"
 	"testing"
 )
 
@@ -21,6 +23,24 @@ func TestEthernet(t *testing.T) {
 	frame := DecodeEthernet(b)
 	if frame.Source.String() != "9c:4e:36:59:b2:54" {
 		t.Error("Got the wrong source MAC:", frame.Source.String())
+	}
+}
+
+func TestEthernetEncode(t *testing.T) {
+	e := EthernetFrame{
+		Source:      net.HardwareAddr{0x9c, 0x4e, 0x36, 0x59, 0xb2, 0x54},
+		Destination: net.HardwareAddr{0xff, 0xff, 0xff, 0xff, 0xff, 0xff},
+		VlanTag:     0,
+		EtherType:   0x0800,
+		Payload:     []byte("foobarbaz"),
+	}
+
+	b := e.Bytes()
+
+	frame := DecodeEthernet(b)
+
+	if !reflect.DeepEqual(frame, e) {
+		t.Error("Encoded and decoded Ethernet frames not equal:", frame, e)
 	}
 }
 
