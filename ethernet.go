@@ -1,12 +1,12 @@
-package protodecode
+package proto
 
 import (
 	"net"
 )
 
 type EthernetFrame struct {
-	Source      net.HardwareAddr `json:"source"`
-	Destination net.HardwareAddr `json:"destination"`
+	Destination net.HardwareAddr `json:"source"`
+	Source      net.HardwareAddr `json:"destination"`
 	VlanTag     uint32           `json:"vlanTag"`
 	EtherType   uint16           `json:"etherType"`
 	Payload     []byte           `json:"payload"`
@@ -17,9 +17,9 @@ func DecodeEthernet(b []byte) EthernetFrame {
 
 	i := 0 // just a helper for indexing
 
-	frame.Source = net.HardwareAddr(b[i : i+6])
-	i += 6
 	frame.Destination = net.HardwareAddr(b[i : i+6])
+	i += 6
+	frame.Source = net.HardwareAddr(b[i : i+6])
 	i += 6
 
 	// Check for a VLAN tag
@@ -46,9 +46,9 @@ func (f EthernetFrame) Bytes() []byte {
 
 	b := make([]byte, (6+6+4+2)+len(f.Payload))
 
-	copy(b, f.Source[:])
+	copy(b, f.Destination[:])
 	i += 6
-	copy(b[i:], f.Destination[:])
+	copy(b[i:], f.Source[:])
 	i += 6
 
 	if f.VlanTag != 0 {

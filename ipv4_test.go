@@ -1,4 +1,4 @@
-package protodecode
+package proto
 
 import (
 	"testing"

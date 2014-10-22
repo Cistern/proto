@@ -1,4 +1,4 @@
-package protodecode
+package proto
 
 import (
 	"net"
@@ -21,7 +21,7 @@ func TestEthernet(t *testing.T) {
 	}
 
 	frame := DecodeEthernet(b)
-	if frame.Source.String() != "9c:4e:36:59:b2:54" {
+	if frame.Source.String() != "e8:de:27:bb:6b:aa" {
 		t.Error("Got the wrong source MAC:", frame.Source.String())
 	}
 }

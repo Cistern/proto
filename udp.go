@@ -1,4 +1,4 @@
-package protodecode
+package proto
 
 type UDPPacket struct {
 	SourcePort      uint16 `json:"sourcePort"`
