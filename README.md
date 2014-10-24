@@ -1,4 +1,4 @@
-protodecode [![Build Status](https://drone.io/github.com/PreetamJinka/protodecode/status.png)](https://drone.io/github.com/PreetamJinka/protodecode/latest)
+protodecode [![Build Status](https://drone.io/github.com/PreetamJinka/proto/status.png)](https://drone.io/github.com/PreetamJinka/proto/latest)
 ====
 Lean, mean protocol decoding.
 
