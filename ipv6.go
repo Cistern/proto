@@ -11,8 +11,8 @@ type IPv6Packet struct {
 	Length       uint16 `json:"length"`
 	NextHeader   uint8  `json:"nextHeader"`
 	HopLimit     uint8  `json:"hopLimit"`
-	Source       net.IP `json:"sourceAddress"`
-	Destination  net.IP `json:"destinationAddress"`
+	Source       net.IP `json:"source"`
+	Destination  net.IP `json:"destination"`
 	Payload      []byte `json:"payload"`
 }
 
@@ -46,4 +46,38 @@ func DecodeIPv6(b []byte) IPv6Packet {
 	packet.Payload = b[i:]
 
 	return packet
+}
+
+func (p IPv6Packet) Bytes() []byte {
+	i := 0
+	b := make([]byte, 40+len(p.Payload))
+
+	b[i] = p.Version<<4 | byte(p.TrafficClass>>4)
+	b[i+1] = p.TrafficClass<<4 | byte(p.FlowLabel>>16)
+	i += 2
+
+	b[i] = byte(p.FlowLabel >> 8)
+	b[i+1] = byte(p.FlowLabel)
+	i += 2
+
+	b[i] = byte(p.Length >> 8)
+	b[i+1] = byte(p.Length)
+	i += 2
+
+	b[i] = p.NextHeader
+	i++
+
+	b[i] = p.HopLimit
+	i++
+
+	copy(b[i:], p.Source)
+	i += len(p.Source)
+
+	copy(b[i:], p.Destination)
+	i += len(p.Destination)
+
+	copy(b[i:], p.Payload)
+	i += len(p.Payload)
+
+	return b[:i]
 }

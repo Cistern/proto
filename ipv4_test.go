@@ -66,7 +66,7 @@ func TestIPv4Encode(t *testing.T) {
 	decoded := DecodeIPv4(packet.Bytes())
 
 	if !reflect.DeepEqual(packet, decoded) {
-		t.Error("Encoded and decoded Ethernet frames not equal:", decoded, packet)
+		t.Error("Encoded and decoded IPv4 packets not equal:", decoded, packet)
 	}
 }
 
