@@ -22,8 +22,15 @@ type IPv4Packet struct {
 	Payload              []byte `json:"payload"`
 }
 
-func DecodeIPv4(b []byte) IPv4Packet {
+const minIPv4PacketSize = 1 + 1 + 1 + 1 + 2 + 2 + 1 + 2 + 1 + 1 + 2 + 4 + 4
+
+// DecodeIPv4 decodes an IPv4 packet.
+func DecodeIPv4(b []byte) (IPv4Packet, error) {
 	packet := IPv4Packet{}
+
+	if len(b) < minIPv4PacketSize {
+		return packet, ErrorNotEnoughBytes
+	}
 
 	i := 0
 
@@ -66,9 +73,10 @@ func DecodeIPv4(b []byte) IPv4Packet {
 
 	packet.Payload = b[i:]
 
-	return packet
+	return packet, nil
 }
 
+// Bytes returns an encoded IPv4 packet.
 func (p IPv4Packet) Bytes() []byte {
 	i := 0
 
@@ -125,6 +133,7 @@ func (p IPv4Packet) Bytes() []byte {
 	return b[:i]
 }
 
+// ComputeChecksum returns the checksum for the IPv4 packet.
 func (p IPv4Packet) ComputeChecksum() uint16 {
 	sum := ((uint32(p.Version)<<4|uint32(p.InternetHeaderLength))<<8 |
 		(uint32(p.DSCP)<<2 | uint32(p.ECN))) +

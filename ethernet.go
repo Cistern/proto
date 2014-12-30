@@ -12,17 +12,25 @@ type EthernetFrame struct {
 	Payload     []byte           `json:"payload"`
 }
 
-func DecodeEthernet(b []byte) EthernetFrame {
+const minEthernetFrameSize = 6 + 6 + 4 + 2
+
+// DecodeEthernet decodes an Ethernet frame.
+func DecodeEthernet(b []byte) (EthernetFrame, error) {
 	frame := EthernetFrame{}
 
-	i := 0 // just a helper for indexing
+	if len(b) < minEthernetFrameSize {
+		return frame, ErrorNotEnoughBytes
+	}
 
+	i := 0 // Just a helper for indexing.
+
+	// Decode MAC addresses.
 	frame.Destination = net.HardwareAddr(b[i : i+6])
 	i += 6
 	frame.Source = net.HardwareAddr(b[i : i+6])
 	i += 6
 
-	// Check for a VLAN tag
+	// Check for a VLAN tag.
 	if b[i] == 0x81 && b[i+1] == 0x00 {
 		i += 2
 		frame.VlanTag = uint32(0x81<<24) | uint32(0x00<<16) | uint32(b[i]<<8) | uint32(b[i+1])
@@ -30,7 +38,7 @@ func DecodeEthernet(b []byte) EthernetFrame {
 	}
 
 	// Check the Ethernet type
-	if t := uint16(b[i])<<8 | uint16(b[i+1]); t >= 1536 { // if 1500 or less, then it's the payload length
+	if t := uint16(b[i])<<8 | uint16(b[i+1]); t >= 1536 { // If 1500 or less, it's the payload length.
 		frame.EtherType = t
 	}
 
@@ -38,9 +46,10 @@ func DecodeEthernet(b []byte) EthernetFrame {
 
 	frame.Payload = b[i:]
 
-	return frame
+	return frame, nil
 }
 
+// Bytes returns an encoded Ethernet frame.
 func (f EthernetFrame) Bytes() []byte {
 	i := 0
 

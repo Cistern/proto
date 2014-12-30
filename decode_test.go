@@ -15,17 +15,29 @@ func TestMultilayerDecode(t *testing.T) {
 		10, 184, 73, 195, 65, 0, 0, 0, 0, 1, 3, 3, 7,
 	}
 
-	ethernetFrame := DecodeEthernet(b)
+	ethernetFrame, err := DecodeEthernet(b)
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	if ethernetFrame.EtherType != 0x86dd {
 		t.Fatalf("expected to see EtherType %x, got %x", 0x86dd, ethernetFrame.EtherType)
 	}
 
-	ipv6Packet := DecodeIPv6(ethernetFrame.Payload)
+	ipv6Packet, err := DecodeIPv6(ethernetFrame.Payload)
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	if ipv6Packet.NextHeader != 0x6 {
 		t.Fatalf("expected to see NextHeader %x, got %x", 0x6, ipv6Packet.NextHeader)
 	}
 
-	tcpPacket := DecodeTCP(ipv6Packet.Payload)
+	tcpPacket, err := DecodeTCP(ipv6Packet.Payload)
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	if tcpPacket.DestinationPort != 80 {
 		t.Fatalf("expected to see destination port %v, got %v", 80, tcpPacket.DestinationPort)
 	}
@@ -51,8 +63,8 @@ func BenchmarkMultilayerDecode(b *testing.B) {
 	}
 
 	for i := 0; i < b.N; i++ {
-		ethernetFrame := DecodeEthernet(buf[:])
-		ipv6Packet := DecodeIPv6(ethernetFrame.Payload)
+		ethernetFrame, _ := DecodeEthernet(buf[:])
+		ipv6Packet, _ := DecodeIPv6(ethernetFrame.Payload)
 		DecodeTCP(ipv6Packet.Payload)
 	}
 }

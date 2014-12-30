@@ -16,7 +16,10 @@ func TestIPv6(t *testing.T) {
 		187, 0, 0, 0, 0, 1, 3, 3, 7,
 	}
 
-	packet := DecodeIPv6(b)
+	packet, err := DecodeIPv6(b)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	if packet.Destination.String() != "2620:100:5007:2::2" {
 		t.Errorf("expected destination address %v, got %v",
@@ -42,7 +45,10 @@ func TestIPv6Encode(t *testing.T) {
 		},
 	}
 
-	p := DecodeIPv6(packet.Bytes())
+	p, err := DecodeIPv6(packet.Bytes())
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	if !reflect.DeepEqual(packet, p) {
 		t.Error("Encoded and decoded IPv6 packets not equal:", packet, p)

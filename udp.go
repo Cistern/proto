@@ -8,8 +8,15 @@ type UDPPacket struct {
 	Payload         []byte `json:"payload"`
 }
 
-func DecodeUDP(b []byte) UDPPacket {
+const minUDPPacketSize = 2 + 2 + 2 + 2
+
+// DecodeUDP decodes an UDP packet.
+func DecodeUDP(b []byte) (UDPPacket, error) {
 	packet := UDPPacket{}
+
+	if len(b) < minUDPPacketSize {
+		return packet, ErrorNotEnoughBytes
+	}
 
 	i := 0
 
@@ -27,5 +34,5 @@ func DecodeUDP(b []byte) UDPPacket {
 
 	packet.Payload = b[i:]
 
-	return packet
+	return packet, nil
 }

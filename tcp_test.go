@@ -16,7 +16,10 @@ func TestTCP(t *testing.T) {
 		13, 10,
 	}
 
-	tcpPacket := DecodeTCP(b)
+	tcpPacket, err := DecodeTCP(b)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	if tcpPacket.DestinationPort != 80 {
 		t.Errorf("expected destination port %v, got %v", 80, tcpPacket.DestinationPort)

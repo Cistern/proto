@@ -20,7 +20,11 @@ func TestEthernet(t *testing.T) {
 		1, 0, 0, 84, 7, 0, 4, 199, 58, 162, 130,
 	}
 
-	frame := DecodeEthernet(b)
+	frame, err := DecodeEthernet(b)
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	if frame.Source.String() != "e8:de:27:bb:6b:aa" {
 		t.Error("Got the wrong source MAC:", frame.Source.String())
 	}
@@ -37,7 +41,10 @@ func TestEthernetEncode(t *testing.T) {
 
 	b := e.Bytes()
 
-	frame := DecodeEthernet(b)
+	frame, err := DecodeEthernet(b)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	if !reflect.DeepEqual(frame, e) {
 		t.Error("Encoded and decoded Ethernet frames not equal:", frame, e)

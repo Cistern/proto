@@ -19,7 +19,11 @@ func TestIPv4(t *testing.T) {
 		58, 32, 42, 47, 42, 13, 10, 13, 10,
 	}
 
-	packet := DecodeIPv4(b)
+	packet, err := DecodeIPv4(b)
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	if packet.Source.String() != "192.168.0.103" {
 		t.Errorf("expected source IPv4 address %v, got %v", "192.168.0.103", packet.Source)
 	}
@@ -63,7 +67,10 @@ func TestIPv4Encode(t *testing.T) {
 
 	packet.HeaderChecksum = packet.ComputeChecksum()
 
-	decoded := DecodeIPv4(packet.Bytes())
+	decoded, err := DecodeIPv4(packet.Bytes())
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	if !reflect.DeepEqual(packet, decoded) {
 		t.Error("Encoded and decoded IPv4 packets not equal:", decoded, packet)
