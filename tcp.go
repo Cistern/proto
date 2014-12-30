@@ -1,5 +1,6 @@
 package proto
 
+// TCPPacket represents a TCP packet.
 type TCPPacket struct {
 	SourcePort            uint16 `json:"sourcePort"`
 	DestinationPort       uint16 `json:"destinationPort"`
@@ -23,38 +24,47 @@ type TCPPacket struct {
 
 const minTCPPacketSize = 2 + 2 + 4 + 4 + 1 + 2 + 2 + 2 + 2
 
+// HasFIN returns true if the FIN flag is set.
 func (p TCPPacket) HasFIN() bool {
 	return p.Flags&(1<<0) > 0
 }
 
+// HasSYN returns true if the SYN flag is set.
 func (p TCPPacket) HasSYN() bool {
 	return p.Flags&(1<<1) > 0
 }
 
+// HasRST return true if the RST flag is set.
 func (p TCPPacket) HasRST() bool {
 	return p.Flags&(1<<2) > 0
 }
 
+// HasPSH returns true if the PSH flag is set.
 func (p TCPPacket) HasPSH() bool {
 	return p.Flags&(1<<3) > 0
 }
 
+// HasACK returns true if the ACK flag is set.
 func (p TCPPacket) HasACK() bool {
 	return p.Flags&(1<<4) > 0
 }
 
+// HasURG returns true if the URG flag is set.
 func (p TCPPacket) HasURG() bool {
 	return p.Flags&(1<<5) > 0
 }
 
+// HasECE returns true if the ECE flag is set.
 func (p TCPPacket) HasECE() bool {
 	return p.Flags&(1<<6) > 0
 }
 
+// HasCWR returns true if the CWR flag is set.
 func (p TCPPacket) HasCWR() bool {
 	return p.Flags&(1<<7) > 0
 }
 
+// HasNS returns true if the NS flag is set.
 func (p TCPPacket) HasNS() bool {
 	return p.Flags>>8 > 0
 }

@@ -4,6 +4,7 @@ import (
 	"net"
 )
 
+// IPv4Packet represents an IPv4 packet.
 type IPv4Packet struct {
 	Version              uint8  `json:"version"`
 	InternetHeaderLength uint8  `json:"internetHeaderLength"`

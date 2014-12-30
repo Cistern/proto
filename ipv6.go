@@ -4,6 +4,7 @@ import (
 	"net"
 )
 
+// IPv6Packet represents an IPv6 packet.
 type IPv6Packet struct {
 	Version      uint8  `json:"version"`
 	TrafficClass uint8  `json:"trafficClass"`

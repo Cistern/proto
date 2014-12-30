@@ -4,6 +4,7 @@ import (
 	"net"
 )
 
+// EthernetFrame represents an Ethernet frame.
 type EthernetFrame struct {
 	Destination net.HardwareAddr `json:"source"`
 	Source      net.HardwareAddr `json:"destination"`
