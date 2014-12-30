@@ -16,8 +16,15 @@ type IPv6Packet struct {
 	Payload      []byte `json:"payload"`
 }
 
-func DecodeIPv6(b []byte) IPv6Packet {
+const minIPv6PacketSize = 1 + 1 + 4 + 2 + 1 + 1 + 16 + 16
+
+// DecodeIPv6 decodes an IPv6 packet.
+func DecodeIPv6(b []byte) (IPv6Packet, error) {
 	packet := IPv6Packet{}
+
+	if len(b) < minIPv6PacketSize {
+		return packet, ErrorNotEnoughBytes
+	}
 
 	i := 0
 
@@ -45,9 +52,10 @@ func DecodeIPv6(b []byte) IPv6Packet {
 
 	packet.Payload = b[i:]
 
-	return packet
+	return packet, nil
 }
 
+// Bytes returns an encoded IPv6 packet.
 func (p IPv6Packet) Bytes() []byte {
 	i := 0
 	b := make([]byte, 40+len(p.Payload))

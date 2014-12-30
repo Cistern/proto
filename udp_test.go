@@ -14,7 +14,10 @@ func TestUDP(t *testing.T) {
 		0, 0, 0, 0,
 	}
 
-	udpPacket := DecodeUDP(b)
+	udpPacket, err := DecodeUDP(b)
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	if udpPacket.DestinationPort != 53 {
 		t.Errorf("expected destination port %v, got %v", 53, udpPacket.DestinationPort)

@@ -21,6 +21,8 @@ type TCPPacket struct {
 	Payload []byte `json:"payload"`
 }
 
+const minTCPPacketSize = 2 + 2 + 4 + 4 + 1 + 2 + 2 + 2 + 2
+
 func (p TCPPacket) HasFIN() bool {
 	return p.Flags&(1<<0) > 0
 }
@@ -57,8 +59,13 @@ func (p TCPPacket) HasNS() bool {
 	return p.Flags>>8 > 0
 }
 
-func DecodeTCP(b []byte) TCPPacket {
+// DecodeTCP decodes an TCP packet.
+func DecodeTCP(b []byte) (TCPPacket, error) {
 	packet := TCPPacket{}
+
+	if len(b) < minTCPPacketSize {
+		return packet, ErrorNotEnoughBytes
+	}
 
 	i := 0
 
@@ -93,5 +100,5 @@ func DecodeTCP(b []byte) TCPPacket {
 
 	packet.Payload = b[i:]
 
-	return packet
+	return packet, nil
 }
