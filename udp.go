@@ -1,5 +1,6 @@
 package proto
 
+// UDPPacket represents a UDP packet.
 type UDPPacket struct {
 	SourcePort      uint16 `json:"sourcePort"`
 	DestinationPort uint16 `json:"destinationPort"`
