@@ -1,4 +1,4 @@
-proto [![Build Status](https://drone.io/github.com/PreetamJinka/proto/status.png)](https://drone.io/github.com/PreetamJinka/proto/latest) [![GoDoc](https://godoc.org/github.com/PreetamJinka/proto?status.svg)](https://godoc.org/github.com/PreetamJinka/proto) [![BSD License](https://img.shields.io/pypi/l/Django.svg)](https://github.com/PreetamJinka/proto/blob/master/LICENSE)
+proto [![Circle CI](https://circleci.com/gh/Cistern/proto.svg?style=svg&circle-token=4e99b695b466658039d493621b6be8affdfda0b6)](https://circleci.com/gh/Cistern/proto) [![GoDoc](https://godoc.org/github.com/PreetamJinka/proto?status.svg)](https://godoc.org/github.com/PreetamJinka/proto) [![BSD License](https://img.shields.io/pypi/l/Django.svg)](https://github.com/PreetamJinka/proto/blob/master/LICENSE)
 ====
 Lean, mean protocol decoding and encoding.
 
